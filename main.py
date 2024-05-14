@@ -195,6 +195,7 @@ class LlmArticleClassifier:
         모델 선택
         "gpt-3.5-turbo",
         "gpt-4-turbo",
+        "gpt-4o",
         "claude-2.1",
         "claude-3-haiku-20240307",
         """
@@ -265,7 +266,7 @@ async def write_to_csv(results: list[dict[str, str]]):
 
 @async_timer
 async def main():
-    llm = LlmArticleClassifier(train_dir_path="./train_data")
+    llm = LlmArticleClassifier(train_dir_path="./train_data", model="gpt-4o")
 
     data_generator = llm.async_get_input_data_from_files(
         input_dir_path="./input_data",
@@ -292,7 +293,7 @@ async def main():
     if batch_queries:
         results.extend(await llm.process_llm_batch(batch_queries))
     
-    await write_to_csv(results)
+    # await write_to_csv(results)
 
 if __name__ == "__main__":
     asyncio.run(main())
